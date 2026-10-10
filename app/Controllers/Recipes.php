@@ -75,4 +75,25 @@ class Recipes extends BaseController{
         return redirect()->to(site_url('/'))
         ->with('success', 'Recipe added successfully!');
     }
+
+    public function edit($id) 
+    {
+        $recipeModel = new RecipeModel();
+
+        $recipe = $recipeModel->find($id);
+
+        if (! $recipe) 
+            {
+                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound(
+                    'Recipe not found.'
+                );
+            }
+
+        $data = [
+            'title' => 'Edit Recipe',
+            'recipe' => $recipe
+        ];
+
+        return view('recipes/edit', $data);
+    }
 }
