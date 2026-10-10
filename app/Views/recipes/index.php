@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= esc($title) ?></title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar bg-white shadow-sm">
+<div class="container">
+<span class="navbar-brand fw-bold">
+    My Recipe Book
+</span>
+</div>
+</nav>
+
+<main class="container py-4">
+    <h2 class="mb-3">My Recipes</h2>
+
+    <?php if (empty($recipes)): ?>
+<div class="col-12">
+    <div class="alert alert-info">
+        No recipes saved yet.
+    </div>
+</div>
+
+<?php else: ?>
+    <?php foreach ($recipes as $recipe): ?>
+
+        <div  class="col-12 col-md-6 col-lg-4">
+
+            <div class="card h-100 shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        <?= esc($recipe['name']) ?>
+                    </h5>
+
+                    <span class="badge bg-success mb-3">
+                    <?= esc($recipe['category']) ?>
+                    </span>
+
+                    <h6>Ingredients</h6>
+
+                    <p class="card-text">
+                        <?= nl2br(esc($recipe['ingredients'])) ?>
+                    </p>
+
+                    <h6>Instructions</h6>
+                    <p class="card-text">
+                        <?= nl2br(esc($recipe['instructions'])) ?> </p>
+
+</div>
+</div>
+</div>
+<?php endforeach; ?>
+<?php endif; ?>
+</div>
+
+</main>
+
+</body>
+</html>
