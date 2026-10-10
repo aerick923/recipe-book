@@ -164,4 +164,25 @@ class Recipes extends BaseController{
         return redirect()->to(site_url('/'))
         ->with('success', 'Recipe updated successfully!');
     }
+
+    public function delete($id)
+    {
+        $recipeModel = new RecipeModel(); 
+        $recipe = $recipeModel->find($id);
+
+        if (! $recipe)
+        {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound
+            ('Recipe not found.');
+        }
+
+        if (! $recipeModel->delete($id))
+        {
+            return redirect()->to(site_url('/'))
+            ->with('error', 'Unable to delete the recipe.');
+        }
+
+        return redirect()->to(site_url('/'))
+        ->with('success', 'Recipe deleted successfully!');
+    }
 }

@@ -35,6 +35,12 @@
     </div>
     <?php endif; ?>
 
+    <?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger">
+    <?= esc(session()->getFlashdata('error')) ?>
+    </div>
+    <?php endif; ?>
+
     <?php if (empty($recipes)): ?>
     <div class="col-12">
     <div class="alert alert-info">
@@ -73,6 +79,19 @@
                     class="btn btn-outline-primary btn-sm">
                     Edit Recipe
                     </a>
+
+                    <form action="<?= site_url('recipes/delete/' . $recipe['id']) ?>"
+                    method="post"
+                    class="d-inline"
+                    onsubmit="return confirm('Are you sure you want to delete this recipe?');">
+                    <?= csrf_field() ?>
+
+                    <button type="submit"
+                    class="btn btn-outline-danger btn-sm">
+                    Delete Recipe
+                    </button>
+
+                    </form>
 
 </div>
 </div>
