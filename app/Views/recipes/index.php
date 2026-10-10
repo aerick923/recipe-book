@@ -69,6 +69,11 @@
                     <p class="card-text">
                         <?= nl2br(esc($recipe['instructions'])) ?> </p>
 
+                    <a href="<?= site_url('recipes/edit/' . $recipe['id']) ?>"
+                    class="btn btn-outline-primary btn-sm">
+                    Edit Recipe
+                    </a>
+
 </div>
 </div>
 </div>

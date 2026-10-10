@@ -11,4 +11,6 @@ $routes->get('recipes/create', 'Recipes::create');
 
 $routes->post('recipes/store', 'Recipes::store');
 
-$routes->get('recipes/edit/(:num)', 'Recipes:;edit/$1');
+$routes->get('recipes/edit/(:num)', 'Recipes::edit/$1');
+
+$routes->post('recipes/update/(:num)', 'Recipes::update/$1');
