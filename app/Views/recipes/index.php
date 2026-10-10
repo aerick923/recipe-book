@@ -20,10 +20,23 @@
 </nav>
 
 <main class="container py-4">
-    <h2 class="mb-3">My Recipes</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">My Recipes</h2>
+
+        <a href="<?= site_url('recipes/create') ?>"
+        class="btn btn-success">
+        + Add Recipe
+        </a>
+    </div>
+
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="alert alert-success">
+            <?= esc(session()->getFlashdata('success')) ?>
+    </div>
+    <?php endif; ?>
 
     <?php if (empty($recipes)): ?>
-<div class="col-12">
+    <div class="col-12">
     <div class="alert alert-info">
         No recipes saved yet.
     </div>

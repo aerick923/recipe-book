@@ -16,4 +16,63 @@ class Recipes extends BaseController{
 
         return view('recipes/index', $data);
     }
+
+    public function create() {
+        return view('recipes/create'); 
+    }
+
+    public function store()
+    {
+        $rules = [
+            'name' => [
+                'required',
+                'max_length[150]'
+            ],
+
+            'category' => [
+                'required',
+                'max_length[100]'
+            ],
+
+            'ingredients' => [
+                'required',
+            ],
+
+            'instructions' => [
+                'required'
+            ],
+
+            'source_url' => [
+                'permit_empty',
+                'valid_url_strict',
+                'max_length[2048]'
+            ]
+        ];
+
+        if (! $this->validate($rules)) {
+            return redirect()->back()
+            ->withInput()
+            ->with('errors', $this->validate->getErrors());
+        }
+
+        $recipeModel = new RecipeModel(); 
+
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'category' => $this->request->getPost('category'),
+            'ingredients' => $this->request->getPost('ingredients'),
+            'instructions' => $this->request->getPost('instructions'),
+            'source_url' => $this->request->getPost('source_url') ?: null
+        ];
+
+        if (! $recipeModel->insert($data)) {
+            return redirect()->back()
+            ->withInput()
+            ->with('errors', $recipeModel->errors() ?:
+            ['save' => 'Unable to save the recipe.']);
+        }
+
+        return redirect()->to(site_url('/'))
+        ->with('success', 'Recipe added successfully!');
+    }
 }
