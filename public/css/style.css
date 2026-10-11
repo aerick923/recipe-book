@@ -126,3 +126,34 @@ h2{
         font-size: 1.1rem;
     }
 }
+
+.form-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: 8px;
+}
+
+.form-control, .form-select {
+    font-size: 1rem;
+    background-color: var(--warm-white);
+}
+
+textarea.form-control {
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--warm-white);
+}
+
+.btn {
+    border-radius: 9px;
+    padding: 9px 14px;
+}
+
+.btn-sm {
+    padding: 6px 10px; 
+}

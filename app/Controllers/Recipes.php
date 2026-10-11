@@ -85,7 +85,7 @@ class Recipes extends BaseController{
         if (! $this->validate($rules)) {
             return redirect()->back()
             ->withInput()
-            ->with('errors', $this->validate->getErrors());
+            ->with('errors', $this->validator->getErrors());
         }
 
         $recipeModel = new RecipeModel(); 

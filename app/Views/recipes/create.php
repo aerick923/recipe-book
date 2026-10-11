@@ -8,11 +8,14 @@
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet">
+
+    <link href="<?= base_url('css/style.css') ?>"
+    rel="stylesheet">
 </head>
 
-<body class="bg-light">
+<body>
 
-<nav class="navbar bg-white shadow-sm">
+<nav class="navbar">
     <div class="container">
         <a class="navbar-brand fw-bold"
         href="<?= site_url('/') ?>">
@@ -22,6 +25,11 @@
 </nav>
 
 <main class="container py-4">
+    <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+    <div class="card shadow-sm">
+    <div class="card-body">
+
     <h2 class="mb-4">Add New Recipe</h2>
 
     <?php if (session()->getFlashdata('errors')): ?>
@@ -33,7 +41,8 @@
     <?php endif; ?>
 
     <form action="<?= site_url('recipes/store') ?>"
-    method="post">
+    method="post"
+    >
 
     <?= csrf_field() ?>
 
@@ -43,7 +52,9 @@
         </label>
 
         <input type="text" name="name" 
-        class="form-control" required> 
+        class="form-control" 
+        value="<?= esc(old('name'), 'attr') ?>"
+        required> 
     </div>
 
     <div class="mb-3">
@@ -55,12 +66,16 @@
         class="form-select"
         required> 
 
-        <option value="">Select Category</option>
-        <option value="Breakfast">Breakfast</option>
-        <option value="Lunch">Lunch</option>
-        <option value="Dinner">Dinner</option>
-        <option value="Dessert">Dessert</option>
-        <option value="Snack">Snack</option>
+       <option value="">Select Category</option>
+
+       <?php foreach (['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack'] as $category): ?>
+        <option value="<?= esc($category, 'attr') ?>"
+        <?= old('category') === $category ? 'selected' : '' ?>>
+        <?= esc($category) ?>
+
+       </option>
+
+       <?php endforeach; ?>
 
 </select> 
 </div>
@@ -73,7 +88,7 @@
 <textarea name="ingredients"
 class="form-control"
 rows="5"
-required></textarea>
+required><?= esc(old('ingredients')) ?></textarea>
 
 </div>
 
@@ -85,7 +100,7 @@ required></textarea>
 <textarea name="instructions"
 class="form-control"
 rows="5"
-required></textarea> 
+required><?= esc(old('instructions')) ?></textarea> 
 
 </div> 
 
@@ -97,7 +112,8 @@ required></textarea>
 <input type="url" 
 name="source_url"
 class="form-control"
-placeholder="https://example.com">
+placeholder="https://example.com"
+value="<?= esc(old('source_url'), 'attr') ?>">
 
 </div>
 
@@ -111,6 +127,11 @@ class="btn btn-secondary">
 Cancel </a>
 
 </form>
+
+            </div>
+            </div>
+            </div>
+            </div>
 </main>
  
 </body>

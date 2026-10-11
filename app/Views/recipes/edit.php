@@ -8,11 +8,14 @@
     <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
     rel="stylesheet">
+
+    <link href="<?= base_url('css/style.css') ?>"
+    rel="stylesheet">
 </head>
 
-<body class="bg-light">
+<body>
 
-<nav class="navbar bg-white shadow-sm">
+<nav class="navbar">
     <div class="container">
         <a class="navbar-brand fw-bold"
         href="<?= site_url('/') ?>">
@@ -21,6 +24,13 @@
 </nav>
 
 <main class="container py-4">
+
+    <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+    <div class="card shadow-sm">
+    <div class="card-body">
+
+
     <h2 class="mb-4">Edit Recipe<h2>
 
     <?php if (session()->getFlashdata('errors')): ?>
@@ -43,7 +53,7 @@
     <input type="text"
     name="name"
     class="form-control"
-    value="<?= esc($recipe['name'], 'attr') ?>"
+    value="<?= esc(old('name', $recipe['name']), 'attr') ?>"
     required>
 
 </div> 
@@ -69,7 +79,7 @@
 
     <?php foreach ($categories as $category): ?>
     <option value="<?= esc($category, 'attr') ?>"
-    <?= $recipe['category'] === $category ? 'selected' : '' ?>>
+    <?= old('category', $recipe['category']) === $category ? 'selected' : '' ?>>
 
     <?= esc($category) ?>
 
@@ -89,7 +99,7 @@
         <textarea name="ingredients"
         class="form-control"
         rows="5"
-        required><?= esc($recipe['ingredients']) ?> </textarea>
+        required><?= esc(old('ingredients', $recipe['ingredients'])) ?> </textarea>
     </div>
 
     <div class="mb-3">
@@ -99,7 +109,7 @@
     <textarea name="instructions"
     class="form-control"
     rows="5"
-    required><?= esc($recipe['instructions']) ?> </textarea> 
+    required><?= esc(old('instructions', $recipe['instructions'])) ?> </textarea> 
 
     </div> 
 
@@ -110,7 +120,7 @@
     <input type="url"
     name="source_url"
     class="form-control"
-    value="<?= esc($recipe['source_url'] ?? '', 'attr') ?>">
+    value="<?= esc(old('source_url', $recipe['source_url'] ?? ''), 'attr') ?>">
 
     </div> 
 
@@ -125,6 +135,11 @@
     </a>
 
     </form>
+
+    </div>
+    </div>
+    </div>
+    </div>
 
     </main>
   
