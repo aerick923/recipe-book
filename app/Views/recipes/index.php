@@ -29,6 +29,31 @@
         </a>
     </div>
 
+    <form action="<?= site_url('/') ?>"
+    method="get"
+    class="mb-4">
+
+    <div class="input-group">
+    <input type="search"
+    name="search"
+    class="form-control"
+    placeholder="Search recipes by name..."
+    value="<?= esc($keyword ?? '', 'attr') ?>">
+
+    <button type="submit"
+    class="btn btn-success">
+    Search
+    </button>
+
+    <a href="<?= site_url('/') ?>"
+    class="btn btn-outline-secondary">
+    Clear 
+    </a>
+
+    </div>
+
+    </form>
+
     <?php if (session()->getFlashdata('success')): ?>
         <div class="alert alert-success">
             <?= esc(session()->getFlashdata('success')) ?>
@@ -44,8 +69,16 @@
     <?php if (empty($recipes)): ?>
     <div class="col-12">
     <div class="alert alert-info">
-        No recipes saved yet.
+    <?php if (! empty($keyword)): ?>
+    No recipes found matching
+    "<?= esc($keyword) ?>"
+
+    <?php else: ?>
+    No Recipes saved yet.
+    <?php endif; ?>
     </div>
+    </div>
+
 </div>
 
 <?php else: ?>

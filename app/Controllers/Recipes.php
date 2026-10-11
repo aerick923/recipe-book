@@ -6,12 +6,27 @@ use App\Models\RecipeModel;
 
 class Recipes extends BaseController{
 
-    public function index() {
+    public function index()
+    {
         $recipeModel = new RecipeModel();
+
+        $keyword = trim((string) $this->request->getGet('search'));
+
+        if ($keyword !== '')
+        {
+            $recipes = $recipeModel
+            ->like('name', $keyword)
+            ->findAll();
+        }
+
+        else{
+            $recipes = $recipeModel->findAll();
+        }
 
         $data = [
             'title' => 'My Recipe Book',
-            'recipes' => $recipeModel->findAll()
+            'recipes' => $recipes,
+            'keyword' => $keyword
         ];
 
         return view('recipes/index', $data);
