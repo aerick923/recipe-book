@@ -32,6 +32,24 @@ class Recipes extends BaseController{
         return view('recipes/index', $data);
     }
 
+    public function show($id) {
+        $recipeModel = new RecipeModel();
+
+        $recipe = $recipeModel->find($id);
+
+        if (! $recipe) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound
+            ('Recipe not found.');
+        }
+
+        $data = [
+            'title' => $recipe['name'],
+            'recipe' => $recipe
+        ];
+
+        return view('recipes/show', $data);
+    }
+
     public function create() {
         return view('recipes/create'); 
     }

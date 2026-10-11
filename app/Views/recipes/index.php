@@ -1,139 +1,201 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title><?= esc($title) ?></title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="<?= base_url('css/style.css') ?>"
         rel="stylesheet">
 </head>
 
-<body class="bg-light">
+<body>
 
-<nav class="navbar bg-white shadow-sm">
-<div class="container">
-<span class="navbar-brand fw-bold">
-    My Recipe Book
-</span>
-</div>
-</nav>
+    <!-- NAVIGATION BAR -->
 
-<main class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">My Recipes</h2>
+    <nav class="navbar">
+        <div class="container">
+            <span class="navbar-brand fw-bold">
+                My Recipe Book
+            </span>
+        </div>
+    </nav>
 
-        <a href="<?= site_url('recipes/create') ?>"
-        class="btn btn-success">
-        + Add Recipe
-        </a>
-    </div>
+    <main class="container py-4">
 
-    <form action="<?= site_url('/') ?>"
-    method="get"
-    class="mb-4">
+        <!-- PAGE HEADING -->
 
-    <div class="input-group">
-    <input type="search"
-    name="search"
-    class="form-control"
-    placeholder="Search recipes by name..."
-    value="<?= esc($keyword ?? '', 'attr') ?>">
+        <div class="d-flex justify-content-between align-items-center mb-3">
 
-    <button type="submit"
-    class="btn btn-success">
-    Search
-    </button>
+            <h2 class="mb-0">My Recipes</h2>
 
-    <a href="<?= site_url('/') ?>"
-    class="btn btn-outline-secondary">
-    Clear 
-    </a>
+            <a href="<?= site_url('recipes/create') ?>"
+               class="btn btn-success">
+                + Add Recipe
+            </a>
 
-    </div>
+        </div>
 
-    </form>
+        <!-- SEARCH BAR -->
 
-    <?php if (session()->getFlashdata('success')): ?>
-        <div class="alert alert-success">
-            <?= esc(session()->getFlashdata('success')) ?>
-    </div>
-    <?php endif; ?>
+        <form action="<?= site_url('/') ?>"
+              method="get"
+              class="mb-4">
 
-    <?php if (session()->getFlashdata('error')): ?>
-    <div class="alert alert-danger">
-    <?= esc(session()->getFlashdata('error')) ?>
-    </div>
-    <?php endif; ?>
+            <div class="input-group">
 
-    <?php if (empty($recipes)): ?>
-    <div class="col-12">
-    <div class="alert alert-info">
-    <?php if (! empty($keyword)): ?>
-    No recipes found matching
-    "<?= esc($keyword) ?>"
+                <input type="search"
+                       name="search"
+                       class="form-control"
+                       placeholder="Search recipes by name..."
+                       value="<?= esc($keyword ?? '', 'attr') ?>">
 
-    <?php else: ?>
-    No Recipes saved yet.
-    <?php endif; ?>
-    </div>
-    </div>
+                <button type="submit"
+                        class="btn btn-success">
+                    Search
+                </button>
 
-</div>
+                <a href="<?= site_url('/') ?>"
+                   class="btn btn-outline-secondary">
+                    Clear
+                </a>
 
-<?php else: ?>
-    <?php foreach ($recipes as $recipe): ?>
+            </div>
 
-        <div  class="col-12 col-md-6 col-lg-4">
+        </form>
 
-            <div class="card h-100 shadow-sm">
+        <!-- SUCCESS MESSAGE -->
 
-                <div class="card-body">
+        <?php if (session()->getFlashdata('success')): ?>
 
-                    <h5 class="card-title">
-                        <?= esc($recipe['name']) ?>
-                    </h5>
+            <div class="alert alert-success">
+                <?= esc(session()->getFlashdata('success')) ?>
+            </div>
 
-                    <span class="badge bg-success mb-3">
-                    <?= esc($recipe['category']) ?>
-                    </span>
+        <?php endif; ?>
 
-                    <h6>Ingredients</h6>
+        <!-- ERROR MESSAGE -->
 
-                    <p class="card-text">
-                        <?= nl2br(esc($recipe['ingredients'])) ?>
-                    </p>
+        <?php if (session()->getFlashdata('error')): ?>
 
-                    <h6>Instructions</h6>
-                    <p class="card-text">
-                        <?= nl2br(esc($recipe['instructions'])) ?> </p>
+            <div class="alert alert-danger">
+                <?= esc(session()->getFlashdata('error')) ?>
+            </div>
 
-                    <a href="<?= site_url('recipes/edit/' . $recipe['id']) ?>"
-                    class="btn btn-outline-primary btn-sm">
-                    Edit Recipe
-                    </a>
+        <?php endif; ?>
 
-                    <form action="<?= site_url('recipes/delete/' . $recipe['id']) ?>"
-                    method="post"
-                    class="d-inline"
-                    onsubmit="return confirm('Are you sure you want to delete this recipe?');">
-                    <?= csrf_field() ?>
+        <!-- RECIPE GRID -->
 
-                    <button type="submit"
-                    class="btn btn-outline-danger btn-sm">
-                    Delete Recipe
-                    </button>
+        <div class="row g-3">
 
-                    </form>
+            <?php if (empty($recipes)): ?>
 
-</div>
-</div>
-</div>
-<?php endforeach; ?>
-<?php endif; ?>
-</div>
+                <div class="col-12">
 
-</main>
+                    <div class="alert alert-info">
+
+                        <?php if (! empty($keyword)): ?>
+
+                            No recipes found matching
+                            "<?= esc($keyword) ?>".
+
+                        <?php else: ?>
+
+                            No recipes saved yet.
+
+                        <?php endif; ?>
+
+                    </div>
+
+                </div>
+
+            <?php else: ?>
+
+                <?php foreach ($recipes as $recipe): ?>
+
+                    <!-- RECIPE CARD COLUMN -->
+
+                    <div class="col-12 col-md-6 col-lg-4">
+
+                        <div class="card h-100 shadow-sm">
+
+                            <div class="card-body d-flex flex-column">
+
+                                <!-- RECIPE NAME -->
+
+                                <h5 class="card-title">
+                                    <?= esc($recipe['name']) ?>
+                                </h5>
+
+                                <!-- CATEGORY -->
+
+                                <div class="mb-3">
+
+                                    <span class="badge bg-success">
+                                        <?= esc($recipe['category']) ?>
+                                    </span>
+
+                                </div>
+
+                                <!-- RECIPE PREVIEW -->
+
+                                <p class="text-muted small mb-4">
+                                    View the ingredients and cooking
+                                    instructions for this recipe.
+                                </p>
+
+                                <!-- ACTION BUTTONS -->
+
+                                <div class="mt-auto">
+
+                                    <a href="<?= site_url('recipes/show/' . $recipe['id']) ?>"
+                                       class="btn btn-success btn-sm">
+                                        View Recipe
+                                    </a>
+
+                                    <a href="<?= site_url('recipes/edit/' . $recipe['id']) ?>"
+                                       class="btn btn-outline-primary btn-sm">
+                                        Edit
+                                    </a>
+
+                                    <form action="<?= site_url('recipes/delete/' . $recipe['id']) ?>"
+                                          method="post"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Are you sure you want to delete this recipe?');">
+
+                                        <?= csrf_field() ?>
+
+                                        <button type="submit"
+                                                class="btn btn-outline-danger btn-sm">
+                                            Delete
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                <?php endforeach; ?>
+
+            <?php endif; ?>
+
+        </div>
+
+    </main>
 
 </body>
 </html>
